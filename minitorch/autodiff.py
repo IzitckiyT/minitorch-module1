@@ -54,39 +54,21 @@ class Variable(Protocol):
 
 
 def topological_sort(variable: Variable) -> Iterable[Variable]:
-    """
-    Computes the topological order of the computation graph.
+    """Return non-constant variables from output towards the leaves."""
+    order: List[Variable] = []
+    visited: set[int] = set()
 
-    Args:
-        variable: The right-most variable
+    def visit(v: Variable) -> None:
+        if v.is_constant() or v.unique_id in visited:
+            return
+        visited.add(v.unique_id)
+        if not v.is_leaf():
+            for parent in v.parents:
+                visit(parent)
+        order.append(v)
 
-    Returns:
-        Non-constant Variables in topological order starting from the right.
-    """
-    stack_dfs = [variable]
-    count_links = defaultdict(int)
-    count_links[variable.unique_id] = 0
-    while len(stack_dfs) > 0:
-        v = stack_dfs.pop()
-        for u in v.history.inputs:
-            count_links[u.unique_id] += 1
-            if count_links[u.unique_id] == 1:
-                stack_dfs.append(u)
-    topsort = [variable]
-    stack_dfs = [variable]
-
-    while len(stack_dfs) > 0:
-        v = stack_dfs.pop()
-        if v.is_constant():
-            continue
-        for u in v.history.inputs:
-            if u.is_constant():
-                continue
-            count_links[u.unique_id] -= 1
-            if count_links[u.unique_id] == 0:
-                stack_dfs.append(u)
-                topsort.append(u)
-    return topsort
+    visit(variable)
+    return list(reversed(order))
 
 
 

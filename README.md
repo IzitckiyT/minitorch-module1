@@ -1,17 +1,27 @@
 # MiniTorch Module 1
 
-<img src="https://minitorch.github.io/minitorch.svg" width="50%">
+| Датасет | Эпохи | Loss | Верных ответов |
+| --- | ---: | ---: | ---: |
+| Simple | 500 | ≈ 5 | — |
+| Split | 100 | 47.4123 | 91 |
+| Spiral | 100 | 72.8284 | 63 |
 
-* Docs: https://minitorch.github.io/
+Значения со скринов. Для Simple точной итоговой таблицы нет.
+Simple получился лучше, Spiral пока плохо обучился.
 
-* Overview: https://minitorch.github.io/module1/module1/
+## Simple
 
-This assignment requires the following files from the previous assignments. You can get these by running
+![Simple](results/screenshots/simple-boundary.png)
+![Loss](results/screenshots/simple-loss.png)
 
-```bash
-python sync_previous_module.py previous-module-dir current-module-dir
-```
+## Split
 
-The files that will be synced are:
+![Split](results/screenshots/split-boundary.png)
+![Loss](results/screenshots/split-loss.png)
 
-        minitorch/operators.py minitorch/module.py tests/test_module.py tests/test_operators.py project/run_manual.py
+## Spiral
+
+![Spiral](results/screenshots/spiral-boundary.png)
+![Loss](results/screenshots/spiral-loss.png)
+
+Ещё надо добавить Diag, Xor, параметры запусков и лог обучения.
